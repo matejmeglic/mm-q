@@ -43,7 +43,7 @@ function SurveyForm({ onSubmit }) {
         .from('survey_responses')
         .insert([{
           age: parseInt(formData.age),
-          had_sex: formData.hadSex === 'da',
+          had_sex: formData.hadSex === 'da' ? true : formData.hadSex === 'ne' ? false : null,
           first_sex_age: formData.firstSexAge ? parseInt(formData.firstSexAge) : null,
           partner_age: formData.partnerAge ? parseInt(formData.partnerAge) : null,
           would_change: formData.wouldChange ? formData.wouldChange === 'da, nekaj bi naredil drugače' : null,
@@ -76,7 +76,7 @@ function SurveyForm({ onSubmit }) {
             value={formData.age}
             onChange={handleChange}
             min="13"
-            max="25"
+            max="100"
             required
           />
         </div>
@@ -106,6 +106,17 @@ function SurveyForm({ onSubmit }) {
               />
               <span>Ne</span>
             </label>
+            <label className="radio-label">
+              <input
+                type="radio"
+                name="hadSex"
+                value="prefer_not_to_answer"
+                checked={formData.hadSex === 'prefer_not_to_answer'}
+                onChange={handleChange}
+                required
+              />
+              <span>Nočem odgovoriti</span>
+            </label>
           </div>
         </div>
 
@@ -120,7 +131,7 @@ function SurveyForm({ onSubmit }) {
                 value={formData.firstSexAge}
                 onChange={handleChange}
                 min="9"
-                max="25"
+                max="100"
                 required
               />
             </div>
@@ -134,7 +145,7 @@ function SurveyForm({ onSubmit }) {
                 value={formData.partnerAge}
                 onChange={handleChange}
                 min="9"
-                max="30"
+                max="100"
                 required
               />
             </div>
