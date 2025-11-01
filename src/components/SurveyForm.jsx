@@ -5,6 +5,7 @@ import './SurveyForm.css'
 function SurveyForm({ onSubmit }) {
   const [formData, setFormData] = useState({
     age: 18,
+    gender: '',
     hadSex: '',
     firstSexAge: '',
     partnerAge: '',
@@ -24,6 +25,11 @@ function SurveyForm({ onSubmit }) {
     e.preventDefault()
 
     // Validation
+    if (!formData.gender) {
+      alert('Prosimo, izberite spol.')
+      return
+    }
+
     if (!formData.hadSex) {
       alert('Prosimo, odgovorite na vprašanje o spolnem odnosu.')
       return
@@ -43,6 +49,7 @@ function SurveyForm({ onSubmit }) {
         .from('survey_responses')
         .insert([{
           age: parseInt(formData.age),
+          gender: formData.gender === 'Moški' ? 'male' : formData.gender === 'Ženska' ? 'female' : 'not_specified',
           had_sex: formData.hadSex === 'da' ? true : formData.hadSex === 'ne' ? false : null,
           first_sex_age: formData.firstSexAge ? parseInt(formData.firstSexAge) : null,
           partner_age: formData.partnerAge ? parseInt(formData.partnerAge) : null,
@@ -82,6 +89,45 @@ function SurveyForm({ onSubmit }) {
         </div>
 
         <div className="form-group">
+          <label htmlFor="gender">Spol</label>
+          <div className="radio-group">
+            <label className="radio-label">
+              <input
+                type="radio"
+                name="gender"
+                value="Moški"
+                checked={formData.gender === 'Moški'}
+                onChange={handleChange}
+                required
+              />
+              <span>Moški</span>
+            </label>
+            <label className="radio-label">
+              <input
+                type="radio"
+                name="gender"
+                value="Ženska"
+                checked={formData.gender === 'Ženska'}
+                onChange={handleChange}
+                required
+              />
+              <span>Ženska</span>
+            </label>
+            <label className="radio-label">
+              <input
+                type="radio"
+                name="gender"
+                value="Ne želim odgovoriti"
+                checked={formData.gender === 'Ne želim odgovoriti'}
+                onChange={handleChange}
+                required
+              />
+              <span>Ne želim odgovoriti</span>
+            </label>
+          </div>
+        </div>
+
+        <div className="form-group">
           <label htmlFor="hadSex">Si že imel spolni odnos?</label>
           <div className="radio-group">
             <label className="radio-label">
@@ -115,7 +161,7 @@ function SurveyForm({ onSubmit }) {
                 onChange={handleChange}
                 required
               />
-              <span>Nočem odgovoriti</span>
+              <span>Ne želim odgovoriti</span>
             </label>
           </div>
         </div>

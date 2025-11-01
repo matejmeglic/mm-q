@@ -2,6 +2,7 @@
 CREATE TABLE survey_responses (
   id BIGSERIAL PRIMARY KEY,
   age INTEGER NOT NULL,
+  gender VARCHAR(20), -- 'male', 'female', or 'not_specified'
   had_sex BOOLEAN, -- NULL means "prefer not to answer"
   first_sex_age INTEGER,
   partner_age INTEGER,
